@@ -77,3 +77,19 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
       - kafka
+
+  subpub:
+    container_name: subpub
+    image: subpub
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    environment:
+      forwardPorts: 8090
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./docker:/docker
+    networks:
+      - kafka
+    command: [ "java", "-jar", "messaging-kafka-0.0.1-SNAPSHOT.jar" ]
